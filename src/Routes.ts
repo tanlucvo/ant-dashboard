@@ -6,23 +6,18 @@
 
 
 import {
-    AppstoreOutlined,
-    MinusOutlined,
-    FileOutlined,
-    GithubOutlined,
-} from "@ant-design/icons"
+    AppstoreOutlined, FileOutlined, MinusOutlined
+} from "@ant-design/icons";
 // type for route
-import {RouteType} from "./Models"
-// About
-import About from "./Views/About";
+import { RouteType } from "./Models";
 // Dashboard
 import Dashboard from "./Views/Dashboard";
 // Pages
 import BlankPage from "./Views/Pages/BlankPage";
-import Page404 from "./Views/Pages/Page404";
+import Login from "./Views/Pages/Login";
 import Page403 from "./Views/Pages/Page403";
+import Page404 from "./Views/Pages/Page404";
 import Page500 from "./Views/Pages/Page500";
-import Login from "./Views/Pages/Login"
 const Routes: RouteType[] = [
     // Default 404 Not Found Page
     
@@ -91,14 +86,6 @@ const Routes: RouteType[] = [
                 isSidemenu: true,
             }
         ]
-    },
-    {
-        path: "/about",
-        name: "About",
-        icon: GithubOutlined,
-        component: About,
-        layout: "/admin",
-        isSidemenu: true,
     },
     {
         path: "/login",

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "antd/dist/antd.css";
 import "./assets/index.scss"
+import './firebase'
 
 import AdminLayout from "./Layouts/Admin";
 import AuthLayout from "./Layouts/Auth";
