@@ -6,6 +6,7 @@ import {
 import { Card, Col, Row, Statistic, Tabs, Typography } from "antd";
 import { getDatabase, onValue, ref } from "firebase/database";
 import React, { useEffect, useState } from "react";
+import TableClass from "../Components/Dashboard/TableClassroom";
 import TableUser from "../Components/Dashboard/TableUser";
 
 const { TabPane } = Tabs;
@@ -31,8 +32,6 @@ export default function Dashboard() {
     });
   }, [database]);
 
-  console.log(numStudents);
-  
   return (
     <Row gutter={[16, 16]} style={{ height: "100%" }}>
       <Col span={24}>
@@ -93,7 +92,7 @@ export default function Dashboard() {
             <Card bordered>
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Classrooms" key="3">
-                  <p>test</p>
+                  <TableClass/>
                 </TabPane>
               </Tabs>
             </Card>
