@@ -1,5 +1,6 @@
 import { Layout } from "antd";
-import React, { useState } from "react";
+import { getAuth } from "firebase/auth";
+import React, { useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import AdminFooter from "../Components/Footer/AdminFooter";
 import AdminHeader from "../Components/Header/AdminHeader";
@@ -10,7 +11,7 @@ const { Content } = Layout;
 
 export default function AdminLayout(props: { location: any }) {
   const [collapsed, setCollapsed] = useState<boolean>(false);
-
+  const [currentUser, setCurrentUser] = useState<any>({});
   const getRoutes = (layoutRoutes: RouteType[]): null | any => {
     return layoutRoutes.map((prop, key) => {
       // if a route doesn't have any subMenu and its layout is admin
@@ -67,6 +68,16 @@ export default function AdminLayout(props: { location: any }) {
     }
     return "Brand";
   };
+  const auth = getAuth();
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+        setCurrentUser(user);
+    });
+  }, []);
+
+  if(!currentUser){
+      return <Redirect to="/auth/login"/>
+  }
 
   return (
     <React.Fragment>
@@ -84,6 +95,7 @@ export default function AdminLayout(props: { location: any }) {
             collapsed={collapsed}
             routes={Routes}
             toggleCollapsed={toggleCollapsed}
+            currentUser={currentUser}
           />
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <div style={{ padding: 24, minHeight: 360 }}>

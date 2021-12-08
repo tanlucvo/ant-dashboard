@@ -21,4 +21,5 @@ export interface SidebarPropsType {
 export interface AdminHeaderPropsType extends SidebarPropsType {
     toggleCollapsed: () => void;
     currentRouteText: string;
+    currentUser:any,
 }
