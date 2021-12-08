@@ -8,7 +8,7 @@ function TableUser(props: { refDB: string }) {
   const { refDB } = props;
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(0);
+  const [total, setTotal] = useState<number>(0);
 
   const columns = [
     {
@@ -36,12 +36,13 @@ function TableUser(props: { refDB: string }) {
   const loadData = useCallback(
     (currentPage = 1) => {
       try {
-        console.log(currentPage);
         setLoading(true);
         onValue(
           ref(database, `/${refDB}/`),
           (snapshot) => {
             const value = snapshot.val();
+            setTotal(snapshot.size);
+            
             setData(
               Object.keys(value).map((key, index) => ({
                 ...value[key],
@@ -54,7 +55,6 @@ function TableUser(props: { refDB: string }) {
             onlyOnce: true,
           }
         );
-        setPage(currentPage + 1);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -62,6 +62,7 @@ function TableUser(props: { refDB: string }) {
     },
     [database, refDB]
   );
+
 
   useEffect(() => {
     loadData();
@@ -72,8 +73,8 @@ function TableUser(props: { refDB: string }) {
       dataSource={data}
       columns={columns}
       pagination={{
-        defaultPageSize: 2,
-        total: 50,
+        defaultPageSize: 1,
+        total,
         onChange: (page) => loadData(page),
       }}
     />

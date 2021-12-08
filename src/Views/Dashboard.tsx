@@ -1,18 +1,38 @@
 import {
-    BugTwoTone,
-    CalendarTwoTone,
-    FolderTwoTone,
-    SmileTwoTone
+  CalendarTwoTone,
+  FolderTwoTone,
+  SmileTwoTone,
 } from "@ant-design/icons";
 import { Card, Col, Row, Statistic, Tabs, Typography } from "antd";
-import React from "react";
+import { getDatabase, onValue, ref } from "firebase/database";
+import React, { useEffect, useState } from "react";
 import TableUser from "../Components/Dashboard/TableUser";
 
 const { TabPane } = Tabs;
 const { Title, Text, Link } = Typography;
 
-export default function Dashboard() { 
+export default function Dashboard() {
+  const database = getDatabase();
+  const [numStudents, setNumStudents] = useState<number>(0);
+  const [numTeachers, setNumTeachers] = useState<number>(0);
+  const [numClasses, setNumClasses] = useState<number>(0);
+  useEffect(() => {
+    onValue(ref(database, `/students/`), (snapshot) => {
+      const value = snapshot.size;
+      setNumStudents(value);
+    });
+    onValue(ref(database, `/teachers/`), (snapshot) => {
+      const value = snapshot.size;
+      setNumTeachers(value);
+    });
+    onValue(ref(database, `/classroom/`), (snapshot) => {
+      const value = snapshot.size;
+      setNumClasses(value);
+    });
+  }, [database]);
 
+  console.log(numStudents);
+  
   return (
     <Row gutter={[16, 16]} style={{ height: "100%" }}>
       <Col span={24}>
@@ -28,40 +48,30 @@ export default function Dashboard() {
           </Text>
         </Card>
       </Col>
-      <Col xs={24} sm={24} md={6}>
+      <Col xs={32} sm={32} md={8}>
         <Card bordered>
           <Statistic
             title="Teachers"
-            value={23}
+            value={numTeachers}
             prefix={<FolderTwoTone twoToneColor="#F63E4F" />}
           />
         </Card>
       </Col>
-      <Col xs={24} sm={24} md={6}>
+      <Col xs={32} sm={32} md={8}>
         <Card bordered>
           <Statistic
             title="Students"
-            value={57}
+            value={numStudents}
             prefix={<SmileTwoTone twoToneColor="#27C7FF" />}
           />
         </Card>
       </Col>
-      <Col xs={24} sm={24} md={6}>
+      <Col xs={32} sm={32} md={8}>
         <Card bordered>
           <Statistic
             title="Classrooms"
-            value={17}
+            value={numClasses}
             prefix={<CalendarTwoTone twoToneColor="#F63848" />}
-          />
-        </Card>
-      </Col>
-      <Col xs={24} sm={24} md={6}>
-        <Card bordered>
-          <Statistic
-            title="Attendences"
-            value={87}
-            prefix={<BugTwoTone twoToneColor="#117EFF" />}
-            suffix={`/ 209`}
           />
         </Card>
       </Col>
